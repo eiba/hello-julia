@@ -10,8 +10,8 @@ function random_specimen_of_length(length, min_char, max_char)
     return [rand(min_char:max_char) for i = 1:length]
 end
 
-function fitness(specimen,target)
-    score=0
+function fitness(specimen, target)
+    score = 0
     for i = 1:length(specimen)
         score += abs(specimen[i] - target[i])^2
     end
@@ -20,7 +20,7 @@ end
 
 function iterate_population(population, target, min_char, max_char)
     for specimen in population
-        score = fitness(specimen,target)
+        score = fitness(specimen, target)
     end
 end
 
