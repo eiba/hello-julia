@@ -8,13 +8,12 @@ function string_to_integer_list(string)
 end
 
 function integer_list_to_string(integer_list)
-    string=""
+    string = ""
     for int in integer_list
-        string*=Char(int)
+        string *= Char(int)
     end
     return string
 end
-
 
 function random_population_of_length(population_size, target, min_char, max_char)
     return [random_specimen_of_length(target, min_char, max_char) for i = 1:population_size]
@@ -22,7 +21,7 @@ end
 
 function random_specimen_of_length(target, min_char, max_char)
     genotype = [rand(min_char:max_char) for i = 1:length(target)]
-    return specimen(genotype,fitness(genotype,target))
+    return specimen(genotype, fitness(genotype, target))
 end
 
 function fitness(genotype, target)
