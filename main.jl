@@ -3,38 +3,51 @@ struct specimen
     fitness::Int64
 end
 
-function string_as_integer_list(string)
+function string_to_integer_list(string)
     return [Int(char) for char in string]
 end
 
-function random_population_of_length(population_size, length, min_char, max_char)
-    return [random_specimen_of_length(length, min_char, max_char) for i = 1:population_size]
-end
-
-function random_specimen_of_length(length, min_char, max_char)
-    return [rand(min_char:max_char) for i = 1:length]
-end
-
-function fitness(specimen, target)
-    score = 0
-    for i = 1:length(specimen)
-        score += abs(specimen[i] - target[i])^2
+function integer_list_to_string(integer_list)
+    string=""
+    for int in integer_list
+        string*=Char(int)
     end
-    return score
+    return string
+end
+
+
+function random_population_of_length(population_size, target, min_char, max_char)
+    return [random_specimen_of_length(target, min_char, max_char) for i = 1:population_size]
+end
+
+function random_specimen_of_length(target, min_char, max_char)
+    genotype = [rand(min_char:max_char) for i = 1:length(target)]
+    return specimen(genotype,fitness(genotype,target))
+end
+
+function fitness(genotype, target)
+    fitness = 0
+    for i = 1:length(genotype)
+        fitness += abs(genotype[i] - target[i])^2
+    end
+    return fitness
+end
+
+function crossover(specimen1, specimen2)
+    return
 end
 
 function iterate_population(population, target, min_char, max_char)
     for specimen in population
-        score = fitness(specimen, target)
+        println(integer_list_to_string(specimen.genotype))
     end
 end
 
 function main(target, population_size, min_char, max_char)
-    target = string_as_integer_list(target)
-    s = specimen(target,fitness(target,target))
-    println(s.genotype, "-",s.fitness)
+    target = string_to_integer_list(target)
     random_population =
-        random_population_of_length(population_size, length(target), min_char, max_char)
+        random_population_of_length(population_size, target, min_char, max_char)
+
     iterate_population(random_population, target, min_char, max_char)
 end
 
