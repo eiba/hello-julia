@@ -1,3 +1,8 @@
+struct specimen
+    genotype::Array
+    fitness::Int64
+end
+
 function string_as_integer_list(string)
     return [Int(char) for char in string]
 end
@@ -26,11 +31,10 @@ end
 
 function main(target, population_size, min_char, max_char)
     target = string_as_integer_list(target)
-
-    target_length = length(target)
+    s = specimen(target,fitness(target,target))
+    println(s.genotype, "-",s.fitness)
     random_population =
-        random_population_of_length(population_size, target_length, min_char, max_char)
-
+        random_population_of_length(population_size, length(target), min_char, max_char)
     iterate_population(random_population, target, min_char, max_char)
 end
 
