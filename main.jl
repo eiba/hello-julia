@@ -11,14 +11,16 @@ function random_specimen_of_length(length, min_char, max_char)
 end
 
 function fitness(specimen,target)
+    score=0
     for i = 1:length(specimen)
-        distance = specimen[i] - target[i]
+        score += abs(specimen[i] - target[i])^2
     end
+    return score
 end
 
 function iterate_population(population, target, min_char, max_char)
     for specimen in population
-        println(fitness(specimen,target))
+        score = fitness(specimen,target)
     end
 end
 
