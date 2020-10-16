@@ -32,13 +32,17 @@ function fitness(genotype, target)
     return fitness
 end
 
-function crossover(specimen1, specimen2)
-    return
+function crossover(genotype1, genotype2)
+    split_point =floor(Int, length(genotype1)/2)
+    return [genotype1[1:split_point];genotype2[split_point+1:length(genotype2)]]
 end
 
 function iterate_population(population, target, min_char, max_char)
-    for specimen in population
-        println(integer_list_to_string(specimen.genotype))
+    new_specimen = []
+    for individual in population
+        random_partner = population[rand(1:length(population))]
+        new_genotype = crossover(individual.genotype,random_partner.genotype)
+        push!(new_specimen, specimen(new_genotype, fitness(new_genotype,target)))
     end
 end
 
