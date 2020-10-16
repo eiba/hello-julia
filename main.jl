@@ -58,13 +58,14 @@ function main(target, population_size, iterations, min_char, max_char)
         random_population_of_length(population_size, target, min_char, max_char)
 
     for i = 1:iterations
-        population = iterate_population(population, target, min_char, max_char)
+        population[1].fitness == 0 ? break : population = iterate_population(population, target, min_char, max_char)
     end
+
     println("-------------")
     println(integer_list_to_string(population[1].genotype), " - ", population[1].fitness)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 1000, 1000
+population_size, iterations = 10000, 1000
 target = "Hello World!"
 main(target, population_size, iterations, min_char, max_char)
