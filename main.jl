@@ -66,6 +66,6 @@ function main(target, population_size, iterations, min_char, max_char)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 10000, 1000
-target = "Hello World!"
+population_size, iterations = 100000, 1000
+target = "Hello Julia!"
 main(target, population_size, iterations, min_char, max_char)
