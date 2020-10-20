@@ -34,8 +34,8 @@ function swap_index_contents!(array, index1, index2)
     array[index2] = index1_contents
 end
 
-function remove!(array, index)
-    [
+function remove(array, index)
+    return [
         array[1:index-1]
         array[index+1:length(array)]
     ]
@@ -77,7 +77,7 @@ function select(combined_population, population_size)
                     best_selected_fitness, best_selected_index =
                         individual.fitness, length(selected_population)
                 end
-                combined_population = remove!(combined_population, rank)
+                combined_population = remove(combined_population, rank)
                 break
             end
         end
