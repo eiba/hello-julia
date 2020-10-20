@@ -39,6 +39,10 @@ end
 
 function select(combined_population, population_size)
     combined_population = sort!(combined_population, by = specimen->specimen.fitness)
+    for rank = 1:length(combined_population)
+        individual = combined_population[rank]
+        selection_probability = (length(combined_population)-rank)/length(combined_population)
+    end
     return combined_population[1:population_size]
 end
 
@@ -66,6 +70,6 @@ function main(target, population_size, iterations, min_char, max_char)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 100000, 1000
+population_size, iterations = 1000, 1000
 target = "Hello Julia!"
 main(target, population_size, iterations, min_char, max_char)
