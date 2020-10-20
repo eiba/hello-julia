@@ -91,23 +91,24 @@ function iterate_population(population, target, min_char, max_char)
 end
 
 function print_iteration_leader(specimen,iteration)
-    println(integer_list_to_string(specimen.genotype), " Score:", specimen.fitness, " Iteration:", iteration,)
+    println("$(integer_list_to_string(specimen.genotype)) - {Score:, $(specimen.fitness), Iteration: $iteration}")
 end
 
 function main(target, population_size, iterations, min_char, max_char)
     target = string_to_integer_list(target)
     population = random_population_of_length(population_size, target, min_char, max_char)
+    print_iteration_leader(population[1],0)
 
     for i = 1:iterations
-        print_iteration_leader(population[1],i)
         population[1].fitness == 0 ? break :
         population = iterate_population(population, target, min_char, max_char)
+        print_iteration_leader(population[1],i)
     end
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 1000, 100
-target = "Hello Julia!"
-main(target, population_size, iterations, min_char, max_char)
+population_size, iterations = 10000, 100
+target = "Hello World!"
 
-#println(typemax(Int64))
+println("Attempting to print $target")
+main(target, population_size, iterations, min_char, max_char)
