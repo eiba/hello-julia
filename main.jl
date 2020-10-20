@@ -28,10 +28,10 @@ function rank_sum(ranks)
     return Int(ranks * (ranks + 1) / 2)
 end
 
-function swap_index_contents(array,i,j)
-    tmp = array[i]
-    array[i] = array[j]
-    array[j] = tmp
+function swap_index_contents(array,index1,index2)
+    index1_contents = array[index1]
+    array[index1] = array[index2]
+    array[index2] = index1_contents
 end
 
 function remove(array, index)
