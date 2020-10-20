@@ -28,7 +28,7 @@ function rank_sum(ranks)
     return Int(ranks * (ranks + 1) / 2)
 end
 
-function swap_index_contents(array,index1,index2)
+function swap_index_contents(array, index1, index2)
     index1_contents = array[index1]
     array[index1] = array[index2]
     array[index2] = index1_contents
@@ -41,7 +41,7 @@ function remove(array, index)
     ]
 end
 
-function display_specimen(specimen,iteration)
+function display_specimen(specimen, iteration)
     display("$(integer_list_to_string(specimen.genotype)) - {Score: $(specimen.fitness), Iteration: $iteration}")
 end
 
@@ -68,20 +68,21 @@ function select(combined_population, population_size)
         cumulative_probability = 0
         for rank = 1:length(combined_population)
             individual = combined_population[rank]
-            selection_probability = (length(combined_population)-rank+1) / selection_sum
+            selection_probability = (length(combined_population) - rank + 1) / selection_sum
             cumulative_probability += selection_probability
             if cumulative_probability > rand()
                 push!(selected_population, individual)
 
-                if  individual.fitness < best_selected_fitness
-                    best_selected_fitness, best_selected_index = individual.fitness, length(selected_population)
+                if individual.fitness < best_selected_fitness
+                    best_selected_fitness, best_selected_index =
+                        individual.fitness, length(selected_population)
                 end
-                combined_population = remove(combined_population,rank)
+                combined_population = remove(combined_population, rank)
                 break
             end
         end
     end
-    swap_index_contents(selected_population,1,best_selected_index)
+    swap_index_contents(selected_population, 1, best_selected_index)
     return selected_population
 end
 
@@ -98,12 +99,12 @@ end
 function main(target, population_size, iterations, min_char, max_char)
     target = string_to_integer_list(target)
     population = random_population_of_length(population_size, target, min_char, max_char)
-    display_specimen(population[1],0)
+    display_specimen(population[1], 0)
 
     for i = 1:iterations
         population[1].fitness == 0 ? break :
         population = iterate_population(population, target, min_char, max_char)
-        display_specimen(population[1],i)
+        display_specimen(population[1], i)
     end
 end
 
