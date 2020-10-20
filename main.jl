@@ -41,9 +41,17 @@ function rank_sum(ranks)
     return Int(ranks * (ranks + 1) / 2)
 end
 
+function swap_indexes(array,i,j)
+    tmp = array[i]
+    array[i] = array[j]
+    array[j] = tmp
+end
+
 function select(combined_population, population_size)
     combined_population = sort!(combined_population, by = specimen -> specimen.fitness)
     selected_population = []
+    best_selected_fitness = typemax(Int)
+    best_selected_index = 0
 
     while length(selected_population) < population_size
         selection_sum = rank_sum(length(combined_population))
@@ -54,6 +62,12 @@ function select(combined_population, population_size)
             cumulative_probability += selection_probability
             if cumulative_probability > rand()
                 push!(selected_population, individual)
+
+                if  individual.fitness < best_selected_fitness
+                    best_selected_fitness = individual.fitness
+                    best_selected_index = length(selected_population)
+                end
+
                 combined_population = [
                     combined_population[1:rank-1]
                     combined_population[rank+1:length(combined_population)]
@@ -62,6 +76,7 @@ function select(combined_population, population_size)
             end
         end
     end
+    swap_indexes(selected_population,1,best_selected_index)
     return selected_population
 end
 
@@ -75,20 +90,24 @@ function iterate_population(population, target, min_char, max_char)
     return select([population; new_specimen], length(population))
 end
 
+function print_iteration_leader(specimen,iteration)
+    println(integer_list_to_string(specimen.genotype), " Score:", specimen.fitness, " Iteration:", iteration,)
+end
+
 function main(target, population_size, iterations, min_char, max_char)
     target = string_to_integer_list(target)
     population = random_population_of_length(population_size, target, min_char, max_char)
 
     for i = 1:iterations
+        print_iteration_leader(population[1],i)
         population[1].fitness == 0 ? break :
         population = iterate_population(population, target, min_char, max_char)
     end
-
-    println("-------------")
-    println(integer_list_to_string(population[1].genotype), " - ", population[1].fitness)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 10000, 100
+population_size, iterations = 1000, 100
 target = "Hello Julia!"
 main(target, population_size, iterations, min_char, max_char)
+
+#println(typemax(Int64))
