@@ -37,13 +37,29 @@ function crossover(genotype1, genotype2)
     return [genotype1[1:split_point]; genotype2[split_point+1:length(genotype2)]]
 end
 
+function rank_sum(ranks)
+    return Int(ranks*(ranks+1)/2)
+end
+
 function select(combined_population, population_size)
     combined_population = sort!(combined_population, by = specimen->specimen.fitness)
+    selected_population = []
+
+    while length(selected_population) < population_size
+    selection_sum = rank_sum(length(combined_population))
+    cumulative_probability = 0
     for rank = 1:length(combined_population)
         individual = combined_population[rank]
-        selection_probability = (length(combined_population)-rank)/length(combined_population)
+        selection_probability = rank/selection_sum
+        cumulative_probability += selection_probability
+        if cumulative_probability >= rand()
+            push!(selected_population,individual)
+            combined_population = [combined_population[1:rank-1];combined_population[rank+1:length(combined_population)]]
+            break
+        end
     end
-    return combined_population[1:population_size]
+end
+    return selected_population
 end
 
 function iterate_population(population, target, min_char, max_char)
@@ -70,6 +86,6 @@ function main(target, population_size, iterations, min_char, max_char)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 1000, 1000
+population_size, iterations = 100, 1000
 target = "Hello Julia!"
 main(target, population_size, iterations, min_char, max_char)
