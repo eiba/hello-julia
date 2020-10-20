@@ -50,9 +50,9 @@ function select(combined_population, population_size)
         cumulative_probability = 0
         for rank = 1:length(combined_population)
             individual = combined_population[rank]
-            selection_probability = rank / selection_sum
+            selection_probability = (length(combined_population)-rank+1) / selection_sum
             cumulative_probability += selection_probability
-            if cumulative_probability >= rand()
+            if cumulative_probability > rand()
                 push!(selected_population, individual)
                 combined_population = [
                     combined_population[1:rank-1]
@@ -89,6 +89,6 @@ function main(target, population_size, iterations, min_char, max_char)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 100, 1000
-target = "Hello Julia!"
+population_size, iterations = 1000, 100
+target = "Hello"
 main(target, population_size, iterations, min_char, max_char)
