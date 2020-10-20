@@ -91,7 +91,7 @@ function iterate_population(population, target, min_char, max_char)
 end
 
 function print_iteration_leader(specimen,iteration)
-    println("$(integer_list_to_string(specimen.genotype)) - {Score:, $(specimen.fitness), Iteration: $iteration}")
+    display("$(integer_list_to_string(specimen.genotype)) - {Score: $(specimen.fitness), Iteration: $iteration}")
 end
 
 function main(target, population_size, iterations, min_char, max_char)
@@ -108,7 +108,5 @@ end
 
 min_char, max_char = 32, 122
 population_size, iterations = 10000, 100
-target = "Hello World!"
-
-println("Attempting to print $target")
+target = "Hello Julia!"
 main(target, population_size, iterations, min_char, max_char)
