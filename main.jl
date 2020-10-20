@@ -24,8 +24,8 @@ function random_specimen_of_length(target, min_char, max_char)
     return specimen(genotype, fitness(genotype, target))
 end
 
-function rank_sum(ranks)
-    return Int(ranks * (ranks + 1) / 2)
+function display_specimen(specimen, iteration)
+    display("$(integer_list_to_string(specimen.genotype)) - {Score: $(specimen.fitness), Iteration: $iteration}")
 end
 
 function swap_index_contents!(array, index1, index2)
@@ -41,8 +41,8 @@ function remove!(array, index)
     ]
 end
 
-function display_specimen(specimen, iteration)
-    display("$(integer_list_to_string(specimen.genotype)) - {Score: $(specimen.fitness), Iteration: $iteration}")
+function rank_sum(ranks)
+    return Int(ranks * (ranks + 1) / 2)
 end
 
 function fitness(genotype, target)
