@@ -33,7 +33,7 @@ function fitness(genotype, target)
 end
 
 function crossover(genotype1, genotype2)
-    split_point = floor(Int, length(genotype1) / 2)
+    split_point = rand(1:length(genotype1)-1)
     return [genotype1[1:split_point]; genotype2[split_point+1:length(genotype2)]]
 end
 
@@ -89,6 +89,6 @@ function main(target, population_size, iterations, min_char, max_char)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 1000, 100
-target = "Hello"
+population_size, iterations = 10000, 100
+target = "Hello Julia!"
 main(target, population_size, iterations, min_char, max_char)
