@@ -38,27 +38,30 @@ function crossover(genotype1, genotype2)
 end
 
 function rank_sum(ranks)
-    return Int(ranks*(ranks+1)/2)
+    return Int(ranks * (ranks + 1) / 2)
 end
 
 function select(combined_population, population_size)
-    combined_population = sort!(combined_population, by = specimen->specimen.fitness)
+    combined_population = sort!(combined_population, by = specimen -> specimen.fitness)
     selected_population = []
 
     while length(selected_population) < population_size
-    selection_sum = rank_sum(length(combined_population))
-    cumulative_probability = 0
-    for rank = 1:length(combined_population)
-        individual = combined_population[rank]
-        selection_probability = rank/selection_sum
-        cumulative_probability += selection_probability
-        if cumulative_probability >= rand()
-            push!(selected_population,individual)
-            combined_population = [combined_population[1:rank-1];combined_population[rank+1:length(combined_population)]]
-            break
+        selection_sum = rank_sum(length(combined_population))
+        cumulative_probability = 0
+        for rank = 1:length(combined_population)
+            individual = combined_population[rank]
+            selection_probability = rank / selection_sum
+            cumulative_probability += selection_probability
+            if cumulative_probability >= rand()
+                push!(selected_population, individual)
+                combined_population = [
+                    combined_population[1:rank-1]
+                    combined_population[rank+1:length(combined_population)]
+                ]
+                break
+            end
         end
     end
-end
     return selected_population
 end
 
@@ -74,11 +77,11 @@ end
 
 function main(target, population_size, iterations, min_char, max_char)
     target = string_to_integer_list(target)
-    population =
-        random_population_of_length(population_size, target, min_char, max_char)
+    population = random_population_of_length(population_size, target, min_char, max_char)
 
     for i = 1:iterations
-        population[1].fitness == 0 ? break : population = iterate_population(population, target, min_char, max_char)
+        population[1].fitness == 0 ? break :
+        population = iterate_population(population, target, min_char, max_char)
     end
 
     println("-------------")
