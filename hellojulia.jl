@@ -3,11 +3,11 @@ struct specimen
     fitness::Int64
 end
 
-function string_to_integer_list(string)
+function string_to_integer_list(string::String)
     return [Int(char) for char in string]
 end
 
-function integer_list_to_string(integer_list)
+function integer_list_to_string(integer_list::Array)
     string = ""
     for int in integer_list
         string *= Char(int)
@@ -15,37 +15,37 @@ function integer_list_to_string(integer_list)
     return string
 end
 
-function random_population_of_length(population_size, target, min_char, max_char)
+function random_population_of_length(population_size::Int, target::String, min_char::Int, max_char::Int)
     return [random_specimen_of_length(target, min_char, max_char) for i = 1:population_size]
 end
 
-function random_specimen_of_length(target, min_char, max_char)
+function random_specimen_of_length(target::String, min_char::Int, max_cha::Int)
     genotype = [rand(min_char:max_char) for i = 1:length(target)]
     return specimen(genotype, fitness(genotype, target))
 end
 
-function display_specimen(specimen, iteration)
+function display_specimen(specimen::specimen, iteration::Int)
     display("$(integer_list_to_string(specimen.genotype)) - {Score: $(specimen.fitness), Iteration: $iteration}")
 end
 
-function swap_index_contents!(array, index1, index2)
+function swap_index_contents!(array::Array, index1::Int, index2::Int)
     index1_contents = array[index1]
     array[index1] = array[index2]
     array[index2] = index1_contents
 end
 
-function remove(array, index)
+function remove(array::Array, index::Int)
     return [
         array[1:index-1]
         array[index+1:length(array)]
     ]
 end
 
-function rank_sum(ranks)
+function rank_sum(ranks::Int)
     return Int(ranks * (ranks + 1) / 2)
 end
 
-function fitness(genotype, target)
+function fitness(genotype::Array, target::String)
     fitness = 0
     for i = 1:length(genotype)
         fitness += abs(genotype[i] - target[i])^2
@@ -53,12 +53,12 @@ function fitness(genotype, target)
     return fitness
 end
 
-function crossover(genotype1, genotype2)
+function crossover(genotype1::Array, genotype2::Array)
     split_point = rand(1:length(genotype1)-1)
     return [genotype1[1:split_point]; genotype2[split_point+1:length(genotype2)]]
 end
 
-function select(combined_population, population_size)
+function select(combined_population::Array, population_size::Int)
     combined_population = sort!(combined_population, by = specimen -> specimen.fitness)
     selected_population = []
     best_selected_fitness, best_selected_index = typemax(Int), 0
@@ -86,7 +86,7 @@ function select(combined_population, population_size)
     return selected_population
 end
 
-function iterate_population(population, target, min_char, max_char)
+function iterate_population(population::Int, target::String, min_char::Int, max_char::Int)
     new_specimen = []
     for individual in population
         random_partner = population[rand(1:length(population))]
@@ -96,7 +96,7 @@ function iterate_population(population, target, min_char, max_char)
     return select([population; new_specimen], length(population))
 end
 
-function main(target, population_size, iterations, min_char, max_char)
+function main(target::String, population_size::Int, iterations::Int, min_char::Int, max_char::Int)
     target = string_to_integer_list(target)
     population = random_population_of_length(population_size, target, min_char, max_char)
     display_specimen(population[1], 0)
