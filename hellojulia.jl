@@ -1,6 +1,6 @@
 struct Specimen
     genotype::Array
-    fitness::Int64
+    fitness::Int
 end
 
 function string_to_integer_list(string::String)
