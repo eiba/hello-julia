@@ -15,7 +15,12 @@ function integer_list_to_string(integer_list::Array)
     return string
 end
 
-function random_population_of_length(population_size::Int, target::String, min_char::Int, max_char::Int)
+function random_population_of_length(
+    population_size::Int,
+    target::String,
+    min_char::Int,
+    max_char::Int,
+)
     return [random_specimen_of_length(target, min_char, max_char) for i = 1:population_size]
 end
 
@@ -96,7 +101,13 @@ function iterate_population(population::Int, target::String, min_char::Int, max_
     return select([population; new_specimen], length(population))
 end
 
-function main(target::String, population_size::Int, iterations::Int, min_char::Int, max_char::Int)
+function main(
+    target::String,
+    population_size::Int,
+    iterations::Int,
+    min_char::Int,
+    max_char::Int,
+)
     target = string_to_integer_list(target)
     population = random_population_of_length(population_size, target, min_char, max_char)
     display_specimen(population[1], 0)
