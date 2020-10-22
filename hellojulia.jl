@@ -1,4 +1,4 @@
-struct specimen
+struct Specimen
     genotype::Array
     fitness::Int64
 end
@@ -26,10 +26,10 @@ end
 
 function random_specimen_of_length(target::String, min_char::Int, max_cha::Int)
     genotype = [rand(min_char:max_char) for i = 1:length(target)]
-    return specimen(genotype, fitness(genotype, target))
+    return Specimen(genotype, fitness(genotype, target))
 end
 
-function display_specimen(specimen::specimen, iteration::Int)
+function display_specimen(specimen::Specimen, iteration::Int)
     display("$(integer_list_to_string(specimen.genotype)) - {Score: $(specimen.fitness), Iteration: $iteration}")
 end
 
@@ -96,7 +96,7 @@ function iterate_population(population::Int, target::String, min_char::Int, max_
     for individual in population
         random_partner = population[rand(1:length(population))]
         new_genotype = crossover(individual.genotype, random_partner.genotype)
-        push!(new_specimen, specimen(new_genotype, fitness(new_genotype, target)))
+        push!(new_specimen, Specimen(new_genotype, fitness(new_genotype, target)))
     end
     return select([population; new_specimen], length(population))
 end
