@@ -135,6 +135,6 @@ function main(
 end
 
 min_char, max_char = 32, 122
-population_size, iterations, mutation_rate = 1000, 100, 0.2
-target = "Hello Julia!"
+population_size, iterations, mutation_rate = 1000, 1000, 0.2
+target = "How much wood could a woodchuck chuck if a woodchuck could chuck wood?"
 main(target, population_size, iterations, mutation_rate, min_char, max_char)
