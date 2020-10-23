@@ -17,14 +17,14 @@ end
 
 function random_population_of_length(
     population_size::Int,
-    target::String,
+    target::Array,
     min_char::Int,
     max_char::Int,
 )
     return [random_specimen_of_length(target, min_char, max_char) for i = 1:population_size]
 end
 
-function random_specimen_of_length(target::String, min_char::Int, max_cha::Int)
+function random_specimen_of_length(target::Array, min_char::Int, max_cha::Int)
     genotype = [rand(min_char:max_char) for i = 1:length(target)]
     return Specimen(genotype, fitness(genotype, target))
 end
@@ -50,12 +50,16 @@ function rank_sum(ranks::Int)
     return Int(ranks * (ranks + 1) / 2)
 end
 
-function fitness(genotype::Array, target::String)
+function fitness(genotype::Array, target::Array)
     fitness = 0
     for i = 1:length(genotype)
         fitness += abs(genotype[i] - target[i])^2
     end
     return fitness
+end
+
+function mutate!(genotype::Array,min_char::Int, max_char::Int)
+    genotype[rand(1:length(genotype))] = rand(min_char:max_char)
 end
 
 function crossover(genotype1::Array, genotype2::Array)
@@ -91,11 +95,12 @@ function select(combined_population::Array, population_size::Int)
     return selected_population
 end
 
-function iterate_population(population::Int, target::String, min_char::Int, max_char::Int)
+function iterate_population(population::Array, target::Array, min_char::Int, max_char::Int)
     new_specimen = []
     for individual in population
         random_partner = population[rand(1:length(population))]
         new_genotype = crossover(individual.genotype, random_partner.genotype)
+        if rand() < 0.1 mutate!(new_genotype,min_char,max_char) end
         push!(new_specimen, Specimen(new_genotype, fitness(new_genotype, target)))
     end
     return select([population; new_specimen], length(population))
