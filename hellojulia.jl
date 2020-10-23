@@ -95,12 +95,12 @@ function select(combined_population::Array, population_size::Int)
     return selected_population
 end
 
-function iterate_population(population::Array, target::Array, min_char::Int, max_char::Int)
+function iterate_population(population::Array, mutation_rate::Float64, target::Array, min_char::Int, max_char::Int)
     new_specimen = []
     for individual in population
         random_partner = population[rand(1:length(population))]
         new_genotype = crossover(individual.genotype, random_partner.genotype)
-        if rand() < 0.1 mutate!(new_genotype,min_char,max_char) end
+        if rand() < mutation_rate mutate!(new_genotype,min_char,max_char) end
         push!(new_specimen, Specimen(new_genotype, fitness(new_genotype, target)))
     end
     return select([population; new_specimen], length(population))
@@ -110,6 +110,7 @@ function main(
     target::String,
     population_size::Int,
     iterations::Int,
+    mutation_rate::Float64,
     min_char::Int,
     max_char::Int,
 )
@@ -119,12 +120,12 @@ function main(
 
     for i = 1:iterations
         population[1].fitness == 0 ? break :
-        population = iterate_population(population, target, min_char, max_char)
+        population = iterate_population(population, mutation_rate, target, min_char, max_char)
         display_specimen(population[1], i)
     end
 end
 
 min_char, max_char = 32, 122
-population_size, iterations = 10000, 100
+population_size, iterations, mutation_rate = 1000, 100, 0.3
 target = "Hello Julia!"
-main(target, population_size, iterations, min_char, max_char)
+main(target, population_size, iterations, mutation_rate, min_char, max_char)
