@@ -35,6 +35,10 @@ function display_specimen(specimen::Specimen, iteration::Int)
     display("$(integer_list_to_string(specimen.genotype)) - {Score: $(specimen.fitness), Iteration: $iteration}")
 end
 
+function display_fitness_plot(fitness_leader_histroy::Array)
+    display(plot(fitness_leader_histroy, label = "", xlabel = "Iteration", ylabel = "Fitness"))
+end
+
 function swap_index_contents!(array::Array, index1::Int, index2::Int)
     index1_contents = array[index1]
     array[index1] = array[index2]
@@ -126,20 +130,21 @@ function main(
 )
     target = string_to_integer_list(target)
     population = random_population_of_size(population_size, target, min_char, max_char)
-    display_specimen(population[1], 0)
 
-    fitness_histroy = [population[1].fitness]
+    fitness_leader_histroy = []
     for i = 1:iterations
-        population[1].fitness == 0 ? break :
+        fitness_leader = population[1]
+        push!(fitness_leader_histroy, fitness_leader.fitness)
+        display_specimen(fitness_leader, i-1)
+
+        fitness_leader.fitness == 0 ? break :
         population =
             iterate_population(population, mutation_rate, target, min_char, max_char)
-        display_specimen(population[1], i)
-        push!(fitness_histroy,population[1].fitness)
     end
-    display(plot(fitness_histroy, label = "" ,xlabel="Iterations",ylabel="Fitness"))
+    display_fitness_plot(fitness_leader_histroy)
 end
 
 min_char, max_char = 32, 122
-population_size, iterations, mutation_rate = 1000, 10, 0.2
+population_size, iterations, mutation_rate = 1000, 1000, 0.2
 target = "How much wood could a woodchuck chuck if a woodchuck could chuck wood?"
 main(target, population_size, iterations, mutation_rate, min_char, max_char)
