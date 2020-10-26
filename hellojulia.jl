@@ -1,3 +1,5 @@
+using Plots
+
 struct Specimen
     genotype::Array
     fitness::Int
@@ -126,12 +128,15 @@ function main(
     population = random_population_of_size(population_size, target, min_char, max_char)
     display_specimen(population[1], 0)
 
+    fitness_histroy = [population[1].fitness]
     for i = 1:iterations
         population[1].fitness == 0 ? break :
         population =
             iterate_population(population, mutation_rate, target, min_char, max_char)
         display_specimen(population[1], i)
+        push!(fitness_histroy,population[1].fitness)
     end
+    plot(fitness_histroy)
 end
 
 min_char, max_char = 32, 122
