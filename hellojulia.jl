@@ -15,7 +15,7 @@ function integer_list_to_string(integer_list::Array)
     return string
 end
 
-function random_population_of_length(
+function random_population_of_size(
     population_size::Int,
     target::Array,
     min_char::Int,
@@ -123,7 +123,7 @@ function main(
     max_char::Int,
 )
     target = string_to_integer_list(target)
-    population = random_population_of_length(population_size, target, min_char, max_char)
+    population = random_population_of_size(population_size, target, min_char, max_char)
     display_specimen(population[1], 0)
 
     for i = 1:iterations
