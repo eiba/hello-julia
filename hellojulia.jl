@@ -36,7 +36,12 @@ function display_specimen(specimen::Specimen, iteration::Int)
 end
 
 function display_fitness_plot(fitness_leader_histroy::Array)
-    display(plot(fitness_leader_histroy, label = "", xlabel = "Iteration", ylabel = "Fitness"))
+    display(plot(
+        fitness_leader_histroy,
+        label = "",
+        xlabel = "Iteration",
+        ylabel = "Fitness",
+    ))
 end
 
 function swap_index_contents!(array::Array, index1::Int, index2::Int)
@@ -82,15 +87,15 @@ function select(combined_population::Array, population_size::Int)
         selection_sum = rank_sum(length(combined_population))
         cumulative_probability = 0
         for rank = 1:length(combined_population)
-            individual = combined_population[rank]
+            specimen = combined_population[rank]
             selection_probability = (length(combined_population) - rank + 1) / selection_sum
             cumulative_probability += selection_probability
             if cumulative_probability > rand()
-                push!(selected_population, individual)
+                push!(selected_population, specimen)
 
-                if individual.fitness < best_selected_fitness
+                if specimen.fitness < best_selected_fitness
                     best_selected_fitness, best_selected_index =
-                        individual.fitness, length(selected_population)
+                        specimen.fitness, length(selected_population)
                 end
                 combined_population = remove(combined_population, rank)
                 break
@@ -109,9 +114,9 @@ function iterate_population(
     max_char::Int,
 )
     new_specimen = []
-    for individual in population
+    for specimen in population
         random_partner = population[rand(1:length(population))]
-        new_genotype = crossover(individual.genotype, random_partner.genotype)
+        new_genotype = crossover(specimen.genotype, random_partner.genotype)
         if rand() < mutation_rate
             mutate!(new_genotype, min_char, max_char)
         end
@@ -135,7 +140,7 @@ function main(
     for i = 1:iterations
         fitness_leader = population[1]
         push!(fitness_leader_histroy, fitness_leader.fitness)
-        display_specimen(fitness_leader, i-1)
+        display_specimen(fitness_leader, i - 1)
 
         fitness_leader.fitness == 0 ? break :
         population =
