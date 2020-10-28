@@ -1,7 +1,7 @@
 using RDatasets
 using StatsPlots
 
-iris = dataset("datasets", "iris");
+iris = dataset("datasets", "iris")
 @df iris scatter(
     :SepalLength,
     :SepalWidth,
